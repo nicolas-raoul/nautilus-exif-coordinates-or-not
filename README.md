@@ -1,29 +1,25 @@
-# nautilus-commons-upload-status
+# nautilus-exif-coordinates-or-not
 
-Do you upload images to Commons? Do you use Nautilus (or Nemo or Caja)?
-Then why not have your file browser tell you what files have been uploaded already?
+This extension shows a small "+" overlay icon on the lower-right of pictures that have GPS coordinates.
 
-`nautilus-commons-upload-status` overlays emblems saying whether a file
-has been uploaded to Commons already or not.
-This is implemented using Commons' REST API, so an Internet connection is required.
+GPS signal comes and go, sometimes even when taking 3 pictures of the same thing only 1 will have coordinates.
+If you consider latitude/longitude information a positive thing, then now you can easily see which picture to choose.
 
-### WARNING: This is a prototype, and it is VEEEERY SLOW, especially in folders with more than 10 images.
-
-Pull requests welcome! :-)
+It is rather fast, but still slows down Nautilus when browsing folders with many pictures. Pull requests welcome! :-)
 
 ## Installation
 
-`nautilus-commons-upload-status` also supports Nemo and Caja. To install it for Nemo or Caja,
+`nautilus-exif-coordinates-or-not` also supports Nemo and Caja. To install it for Nemo or Caja,
 replace "nautilus" everywhere it appears below with "caja" or "nemo". Everything is
 exactly the same since nemo and caja are forks of Nautilus that have not changed
 anything relevant to this extension.
 
-`nautilus-commons-upload-status` requires `python-gi`, `python-nautilus` (or `python-nemo` or
-`python-caja`), the python `pathlib` library and the python `enum34` library. On Ubuntu
+`nautilus-exif-coordinates-or-not` requires `python-gi`, `python-nautilus` (or `python-nemo` or
+`python-caja`), and the python libraries `pathlib`, `enum34`, `exif` library. On Ubuntu
 these are installable with: `sudo apt-get install python-gi python-pathlib
-python-nautilus python-enum34`
+python-nautilus python-enum34 python-exif`
 
-To install `nautilus-commons-upload-status`, put the single python file `git-nautilus-
+To install `nautilus-exif-coordinates-or-not`, put the single python file `git-nautilus-
 icons.py` in `~/.local/share/nautilus-python/extensions`, and put the icons
 folder `hicolor` in `~/.icons/`. These directories might not exist, in which
 case create them. You can use the following commands to do so:
@@ -35,13 +31,13 @@ cd git_nautilus_icons/
 mkdir -p ~/.icons
 cp -r icons/hicolor ~/.icons
 mkdir -p ~/.local/share/nautilus-python/extensions
-cp nautilus-commons-upload-status.py ~/.local/share/nautilus-python/extensions
+cp nautilus-exif-coordinates-or-not.py ~/.local/share/nautilus-python/extensions
 ```
 
 Then restart Nautilus with `nautilus -q` and the plugin will be loaded next time
 a Nautilus window is opened.
 
-To uninstall, simply delete `nautilus-commons-upload-status.py` and the `hicolor` icons
+To uninstall, simply delete `nautilus-exif-coordinates-or-not.py` and the `hicolor` icons
 folder.
 
 ## Notes
