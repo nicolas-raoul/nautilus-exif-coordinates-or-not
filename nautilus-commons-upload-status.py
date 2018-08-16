@@ -1,6 +1,6 @@
 #####################################################################
 #                                                                   #
-# Copyright 2016, Chris Billington                                  #
+# Copyright 2016, Chris Billington, Nicolas Raoul                   #
 #                                                                   #
 # This file is part of the git-nautilus-icons project (see          #
 #  https://github.com/chrisjbillington/git_nautilus_icons) and is   #
@@ -27,8 +27,8 @@ else:
     from gi.repository import Nautilus
 from subprocess import Popen, PIPE, CalledProcessError
 from collections import defaultdict
-import urllib2
-import hashlib
+from exifread import process_file
+from exifread.tags import DEFAULT_STOP_TAG
 
 def get_filepath(file):
     """Extract filepath from the URI in a NautilusVFSFile object. Return the
@@ -55,21 +55,17 @@ class InfoProvider(GObject.GObject, Nautilus.InfoProvider):
             return
 
 	# We only care about images
-	if file.get_mime_type() in ('image/jpeg', 'image/png'):
+	if file.get_mime_type() in ('image/jpeg'):
 	    filepath = get_filepath(file)
-	    print("Checking whether this image is already on Commons: " + filepath)
+	    print("Checking whether this picture has an EXIF longitude: " + filepath)
 	    openedFile = open(filepath)
-            readFile = openedFile.read()
-	    sha1 = hashlib.sha1(readFile).hexdigest()
+	    
+	    detailed = True
+	    stop_tag = "GPS GPSLongitude"
+	    debug = True
+	    strict = False
+	    color = False
+            data = process_file(openedFile, stop_tag=stop_tag, details=detailed, strict=strict, debug=debug)
 
-	    # Launch request to Commons server to find any media with this checksum
-	    url = 'https://commons.wikimedia.org/w/api.php?action=query&list=allimages&format=xml&aisha1=' + sha1
-	    response = urllib2.urlopen(url)
-	    html = response.read()
-
-	    # See whether a result was returned or not
-	    existsOnCommons = "<img name" in html
-
-	    # If the file is already on Commons, add an icon overlay showing that
-	    if existsOnCommons:
-		file.add_emblem("cool") # TODO Find better icon for GPS EXIF presence and add per https://stackoverflow.com/questions/27628241/python-nautilus-add-custom-emblems-overlay-icon
+	    if 'GPS GPSLongitude' in data:
+		file.add_emblem("new") # TODO Find better icon for GPS EXIF presence and add per https://stackoverflow.com/questions/27628241/python-nautilus-add-custom-emblems-overlay-icon
