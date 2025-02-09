@@ -2,10 +2,8 @@
 #                                                                   #
 # Copyright 2016, Chris Billington, Nicolas Raoul                   #
 #                                                                   #
-# This file is part of the git-nautilus-icons project (see          #
-#  https://github.com/chrisjbillington/git_nautilus_icons) and is   #
-# licensed under the Simplified BSD License. See LICENSE in         #
-# the root directory of the project for the full license.           #
+# This file is licensed under the Simplified BSD License. See       #
+# LICENSE in the root directory of the project for the full text.   #
 #                                                                   #
 #####################################################################
 
